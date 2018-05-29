@@ -7,6 +7,8 @@ import (
 )
 
 func TestTurnOffKthBit(t *testing.T) {
+	t.Parallel()
+
 	var (
 		n        = bin2int("00001111")
 		k        = uint(2)

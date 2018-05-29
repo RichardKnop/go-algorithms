@@ -1,4 +1,4 @@
-package quicksort
+package sorting
 
 import (
 	"math/rand"

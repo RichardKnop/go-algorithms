@@ -1,4 +1,4 @@
-package mergesort
+package sorting
 
 // MergeSort ...
 func MergeSort(arr []int, l, r int) {
