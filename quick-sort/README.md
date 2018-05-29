@@ -1,8 +1,8 @@
 # Quicksort
 
-Worst case: O(n2)
-Best case: O(n log n)
-Average case: O(n log n)
+- Worst case: O(n2)
+- Best case: O(n log n)
+- Average case: O(n log n)
 
 Similar to selection sort but pivot is not always chosen as leftmost item which leads to worst case complexity for already sorted arrays.
 
