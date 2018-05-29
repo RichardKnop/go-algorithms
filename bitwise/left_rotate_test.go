@@ -8,19 +8,19 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTurnOffKthBit(t *testing.T) {
+func TestLeftRotate(t *testing.T) {
 	t.Parallel()
 
 	// Inputs
-	input, _ := strconv.ParseUint("00001111", 2, 8)
+	input, _ := strconv.ParseUint("01001111", 2, 8)
 	n := uint8(input)
 	k := uint(2)
 
 	// Expected output
-	output, _ := strconv.ParseUint("00001011", 2, 8)
+	output, _ := strconv.ParseUint("00111101", 2, 8)
 	expected := uint8(output)
 
-	actual := TurnOffKthBit(n, k)
+	actual := LeftRotate(n, k)
 
 	assert.Equal(t, fmt.Sprintf("%.8b", expected), fmt.Sprintf("%.8b", actual))
 }
