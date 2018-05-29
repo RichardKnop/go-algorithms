@@ -1,26 +1,15 @@
-package main
+package mergesort
 
-import (
-	"fmt"
-)
-
-func main() {
-	arr := []int{4, 202, 3, 9, 6, 5, 1, 43, 506}
-
-	mergeSort(arr, 0, len(arr))
-
-	fmt.Println(arr)
-}
-
-func mergeSort(arr []int, l, r int) {
+// MergeSort ...
+func MergeSort(arr []int, l, r int) {
 	if r-l <= 1 {
 		return
 	}
 
 	// Recursively divide into halves
 	m := int(l+r) / 2
-	mergeSort(arr, l, m)
-	mergeSort(arr, m, r)
+	MergeSort(arr, l, m)
+	MergeSort(arr, m, r)
 
 	// Merge halves
 	merge(arr, l, m, r)

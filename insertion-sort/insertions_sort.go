@@ -1,18 +1,7 @@
-package main
+package insertionsort
 
-import (
-	"fmt"
-)
-
-func main() {
-	items := []int{4, 202, 3, 9, 6, 5, 1, 43, 506}
-
-	insertionSort(items)
-
-	fmt.Println(items)
-}
-
-func insertionSort(items []int) {
+// InsertionSort ...
+func InsertionSort(items []int) {
 	var (
 		n = len(items)
 		i = 1

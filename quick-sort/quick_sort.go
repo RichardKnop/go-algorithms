@@ -1,19 +1,11 @@
-package main
+package quicksort
 
 import (
-	"fmt"
 	"math/rand"
 )
 
-func main() {
-	arr := []int{4, 202, 3, 9, 6, 5, 1, 43, 506}
-
-	quickSort(arr)
-
-	fmt.Println(arr)
-}
-
-func quickSort(arr []int) {
+// QuickSort ...
+func QuickSort(arr []int) {
 	if len(arr) < 2 {
 		return
 	}
@@ -38,6 +30,6 @@ func quickSort(arr []int) {
 	arr[left], arr[right] = arr[right], arr[left]
 
 	// Go down the rabbit hole
-	quickSort(arr[:left])
-	quickSort(arr[left+1:])
+	QuickSort(arr[:left])
+	QuickSort(arr[left+1:])
 }
