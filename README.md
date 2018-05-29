@@ -1,2 +1,3 @@
-# go-fun
-Just having fun in Go
+# go-algorithms
+
+Implementing algorithms in Go.
