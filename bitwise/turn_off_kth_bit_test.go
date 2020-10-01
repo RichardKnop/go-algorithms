@@ -1,4 +1,4 @@
-package bitwise
+package bitwise_test
 
 import (
 	"fmt"
@@ -6,6 +6,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"github.com/RichardKnop/go-algorithms/bitwise"
 )
 
 func TestTurnOffKthBit(t *testing.T) {
@@ -20,7 +22,7 @@ func TestTurnOffKthBit(t *testing.T) {
 	output, _ := strconv.ParseUint("00001011", 2, 8)
 	expected := uint8(output)
 
-	actual := TurnOffKthBit(n, k)
+	actual := bitwise.TurnOffKthBit(n, k)
 
 	assert.Equal(t, fmt.Sprintf("%.8b", expected), fmt.Sprintf("%.8b", actual))
 }

@@ -1,22 +1,27 @@
 package binarytree
 
-// BreadthFirstSearch ...
-func BreadthFirstSearch(node *Tree, value int) *Tree {
-	return breadthFirstSearch(value, node)
+func (t *binaryTree) BreadthFirstSearch(value interface{}) *Node {
+
+	if t.root == nil {
+		return nil
+	}
+
+	return t.breadthFirstSearch(value, t.root)
 }
 
-func breadthFirstSearch(value int, nodes ...*Tree) *Tree {
-	var children []*Tree
+func (t *binaryTree) breadthFirstSearch(value interface{}, nodes ...*Node) *Node {
+
+	var nodesBellow []*Node
 	for _, node := range nodes {
+
+		t.traversed++
+
 		if node.Value == value {
 			return node
 		}
-		if node.Left != nil {
-			children = append(children, node.Left)
-		}
-		if node.Right != nil {
-			children = append(children, node.Right)
-		}
+
+		nodesBellow = append(nodesBellow, node.Children()...)
 	}
-	return breadthFirstSearch(value, children...)
+
+	return t.breadthFirstSearch(value, nodesBellow...)
 }

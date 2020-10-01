@@ -1,2 +1,2 @@
 test:
-	bash -c 'go test -timeout=10s ./...'
+	bash -c 'go test -race -count=1 -timeout=10s ./...'
