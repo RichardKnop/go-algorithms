@@ -21,8 +21,8 @@ type ItemLinkedList struct {
 }
 
 type SinglyLinkedList interface {
-	Append(t Item)                 // adds an Item t to the end of the linked list
-	Insert(i int, t Item) error    // adds an Item t at position i
+	Append(t Item)                 // adds an Item to the end of the linked list
+	Insert(i int, t Item) error    // adds an Item at position i
 	RemoveAt(i int) (*Item, error) // removes a node at position i
 	IndexOf(t Item) int            // returns the position of the Item t
 	IsEmpty() bool                 // returns true if the list is empty
@@ -30,9 +30,16 @@ type SinglyLinkedList interface {
 	Head() *Node                   // returns the first node, so we can iterate on it
 }
 
-// NewItemLinkedList ...
-func NewItemLinkedList() SinglyLinkedList {
+func New() SinglyLinkedList {
 	return new(ItemLinkedList)
+}
+
+func (n *Node) Next() *Node {
+	return n.next
+}
+
+func (n *Node) Value() Item {
+	return n.content
 }
 
 // Append adds an Item to the end of the linked list

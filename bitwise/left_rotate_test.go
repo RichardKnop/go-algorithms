@@ -10,7 +10,7 @@ import (
 	"github.com/RichardKnop/go-algorithms/bitwise"
 )
 
-func TestLeftRotate(t *testing.T) {
+func Test_LeftRotate(t *testing.T) {
 	t.Parallel()
 
 	// Inputs
