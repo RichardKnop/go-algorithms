@@ -70,7 +70,7 @@ func (ll *ItemLinkedList) Insert(i int, t Item) error {
 	}
 	node := ll.head
 	j := 0
-	for j < i-2 {
+	for j < i-1 {
 		j++
 		node = node.next
 	}
