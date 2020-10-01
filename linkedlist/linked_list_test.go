@@ -33,13 +33,22 @@ func Test_Append(t *testing.T) {
 	assertLinkedList(t, expected, l)
 }
 
-func Test_Insert_EmptyList_Error(t *testing.T) {
+func Test_Insert_IndexOutOfBounds(t *testing.T) {
 	t.Parallel()
 
 	l := linkedlist.New()
 
-	err := l.Insert(10, linkedlist.Item("a"))
+	err := l.Insert(-1, linkedlist.Item("a"))
+	assert.Error(t, err)
 
+	err = l.Insert(1, linkedlist.Item("a"))
+	assert.Error(t, err)
+
+	l.Append(linkedlist.Item("a"))
+	l.Append(linkedlist.Item("b"))
+	l.Append(linkedlist.Item("c"))
+
+	err = l.Insert(4, linkedlist.Item("d"))
 	assert.Error(t, err)
 }
 
@@ -56,7 +65,7 @@ func Test_Insert_EmptyList(t *testing.T) {
 	}
 }
 
-func Test_Insert_Beginning(t *testing.T) {
+func Test_Insert_First(t *testing.T) {
 	t.Parallel()
 
 	l := linkedlist.New()
@@ -88,7 +97,23 @@ func Test_Insert_Middle(t *testing.T) {
 	}
 }
 
-func Test_Insert_End(t *testing.T) {
+func Test_Insert_Last(t *testing.T) {
+	t.Parallel()
+
+	l := linkedlist.New()
+	l.Append(linkedlist.Item("a"))
+	l.Append(linkedlist.Item("b"))
+	l.Append(linkedlist.Item("c"))
+
+	err := l.Insert(2, linkedlist.Item("hello"))
+
+	if assert.NoError(t, err) {
+		expected := []string{"a", "b", "hello", "c"}
+		assertLinkedList(t, expected, l)
+	}
+}
+
+func Test_Insert_AfterLast(t *testing.T) {
 	t.Parallel()
 
 	l := linkedlist.New()
@@ -167,6 +192,41 @@ func Test_RemoveAt_End(t *testing.T) {
 		expected := []string{"a", "b"}
 		assertLinkedList(t, expected, l)
 	}
+}
+
+func Test_IndexOf(t *testing.T) {
+	t.Parallel()
+
+	l := linkedlist.New()
+	l.Append(linkedlist.Item("a"))
+	l.Append(linkedlist.Item("b"))
+	l.Append(linkedlist.Item("c"))
+
+	assert.Equal(t, 0, l.IndexOf(linkedlist.Item("a")))
+	assert.Equal(t, 1, l.IndexOf(linkedlist.Item("b")))
+	assert.Equal(t, 2, l.IndexOf(linkedlist.Item("c")))
+}
+
+func Test_Size(t *testing.T) {
+	t.Parallel()
+
+	l := linkedlist.New()
+	assert.Equal(t, 0, l.Size())
+
+	l.Append(linkedlist.Item("a"))
+	assert.Equal(t, 1, l.Size())
+
+	l.Append(linkedlist.Item("b"))
+	assert.Equal(t, 2, l.Size())
+
+	l.Append(linkedlist.Item("c"))
+	assert.Equal(t, 3, l.Size())
+
+	l.Insert(0, "hello")
+	assert.Equal(t, 4, l.Size())
+
+	l.RemoveAt(0)
+	assert.Equal(t, 3, l.Size())
 }
 
 func assertLinkedList(t *testing.T, expected []string, l linkedlist.SinglyLinkedList) {

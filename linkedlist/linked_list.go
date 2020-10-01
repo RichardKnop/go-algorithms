@@ -161,18 +161,8 @@ func (ll *ItemLinkedList) IsEmpty() bool {
 
 // Size returns the linked list size
 func (ll *ItemLinkedList) Size() int {
-	ll.lock.RLock()
-	defer ll.lock.RUnlock()
-	size := 1
-	last := ll.head
-	for {
-		if last == nil || last.next == nil {
-			break
-		}
-		last = last.next
-		size++
-	}
-	return size
+
+	return ll.size
 }
 
 // Head returns a pointer to the first node of the list
