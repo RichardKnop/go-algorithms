@@ -1,7 +1,7 @@
 package linkedlist
 
 import (
-	"fmt"
+	"errors"
 	"sync"
 )
 
@@ -21,13 +21,13 @@ type ItemLinkedList struct {
 }
 
 type SinglyLinkedList interface {
-	Append(t Item)                 // adds an Item to the end of the linked list
-	Insert(i int, t Item) error    // adds an Item at position i
-	RemoveAt(i int) (*Item, error) // removes a node at position i
-	IndexOf(t Item) int            // returns the position of the Item t
-	IsEmpty() bool                 // returns true if the list is empty
-	Size() int                     // returns the linked list size
-	Head() *Node                   // returns the first node, so we can iterate on it
+	Append(t Item)                // adds an Item to the end of the linked list
+	Insert(i int, t Item) error   // adds an Item at position i
+	RemoveAt(i int) (Item, error) // removes a node at position i
+	IndexOf(t Item) int           // returns the position of the Item t
+	IsEmpty() bool                // returns true if the list is empty
+	Size() int                    // returns the linked list size
+	Head() *Node                  // returns the first node, so we can iterate on it
 }
 
 func New() SinglyLinkedList {
@@ -45,36 +45,43 @@ func (n *Node) Value() Item {
 // Append adds an Item to the end of the linked list
 func (ll *ItemLinkedList) Append(t Item) {
 	ll.lock.Lock()
+	defer ll.lock.Unlock()
+
+	ll.size++
+
 	node := Node{t, nil}
+
 	if ll.head == nil {
 		ll.head = &node
-	} else {
-		last := ll.head
-		for {
-			if last.next == nil {
-				break
-			}
-			last = last.next
-		}
-		last.next = &node
+		return
 	}
-	ll.size++
-	ll.lock.Unlock()
+
+	last := ll.head
+	for last.next != nil {
+		last = last.next
+	}
+	last.next = &node
 }
 
 // Insert adds an Item at position i
 func (ll *ItemLinkedList) Insert(i int, t Item) error {
 	ll.lock.Lock()
 	defer ll.lock.Unlock()
+
 	if i < 0 || i > ll.size {
-		return fmt.Errorf("Index out of bounds")
+		return errors.New("index out of bounds")
 	}
+
+	ll.size++
+
 	addNode := Node{t, nil}
+
 	if i == 0 {
 		addNode.next = ll.head
 		ll.head = &addNode
 		return nil
 	}
+
 	node := ll.head
 	j := 0
 	for j < i-1 {
@@ -83,33 +90,49 @@ func (ll *ItemLinkedList) Insert(i int, t Item) error {
 	}
 	addNode.next = node.next
 	node.next = &addNode
-	ll.size++
+
 	return nil
 }
 
 // RemoveAt removes a node at position i
-func (ll *ItemLinkedList) RemoveAt(i int) (*Item, error) {
+func (ll *ItemLinkedList) RemoveAt(i int) (Item, error) {
 	ll.lock.Lock()
 	defer ll.lock.Unlock()
-	if i < 0 || i > ll.size {
-		return nil, fmt.Errorf("Index out of bounds")
+
+	if ll.head == nil {
+		return nil, errors.New("cannot remove from empty list")
 	}
+
+	if i < 0 || i > ll.size {
+		return nil, errors.New("index out of bounds")
+	}
+
+	ll.size--
+
+	if i == 0 {
+		remove := ll.head
+		ll.head = remove.next
+		return remove.content, nil
+	}
+
 	node := ll.head
 	j := 0
 	for j < i-1 {
 		j++
 		node = node.next
 	}
+
 	remove := node.next
 	node.next = remove.next
-	ll.size--
-	return &remove.content, nil
+
+	return remove.content, nil
 }
 
 // IndexOf returns the position of the Item t
 func (ll *ItemLinkedList) IndexOf(t Item) int {
 	ll.lock.RLock()
 	defer ll.lock.RUnlock()
+
 	node := ll.head
 	j := 0
 	for {
@@ -128,9 +151,11 @@ func (ll *ItemLinkedList) IndexOf(t Item) int {
 func (ll *ItemLinkedList) IsEmpty() bool {
 	ll.lock.RLock()
 	defer ll.lock.RUnlock()
+
 	if ll.head == nil {
 		return true
 	}
+
 	return false
 }
 
