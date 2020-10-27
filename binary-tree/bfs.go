@@ -9,7 +9,7 @@ func (t *binaryTree) BFS(visitCallback func(int) bool) {
 	// Keep track of visited nodes
 	visited := make(map[int]bool)
 
-	// Mark root nodeas visited
+	// Mark root node as visited
 	visited[t.root.Key] = true
 
 	// Create a queue and enqueue the root node
