@@ -1,20 +1,18 @@
 package binarytree
 
 type binaryTree struct {
-	root      *Node
-	traversed int
+	root *Node
 }
 
 type Node struct {
 	Left  *Node
-	Value interface{}
+	Key   int
 	Right *Node
 }
 
 type BinaryTree interface {
-	BreadthFirstSearch(value interface{}) *Node
-	DepthFirstSearch(value interface{}) *Node
-	Traversed() int
+	BFS(func(int) bool)
+	DFS(func(int) bool)
 }
 
 func New(root *Node) BinaryTree {
@@ -22,30 +20,11 @@ func New(root *Node) BinaryTree {
 	return &binaryTree{root: root}
 }
 
-func NewNode(value interface{}, left, right *Node) *Node {
+func NewNode(key int, left, right *Node) *Node {
 
 	return &Node{
 		Left:  left,
-		Value: value,
+		Key:   key,
 		Right: right,
 	}
-}
-
-func (t *binaryTree) Traversed() int {
-
-	return t.traversed
-}
-
-func (n *Node) Children() []*Node {
-
-	var children []*Node
-
-	if n.Left != nil {
-		children = append(children, n.Left)
-	}
-	if n.Right != nil {
-		children = append(children, n.Right)
-	}
-
-	return children
 }

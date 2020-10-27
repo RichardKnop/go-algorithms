@@ -8,58 +8,56 @@ import (
 	"github.com/RichardKnop/go-algorithms/binary-tree"
 )
 
-func TestBreadthFirstSearch(t *testing.T) {
+func TestDFS(t *testing.T) {
 	t.Parallel()
 
 	root := &binarytree.Node{
-		Value: 8,
+		Key: 1,
 		Left: &binarytree.Node{
-			Value: 2,
+			Key: 2,
 			Left: &binarytree.Node{
-				Value: 5,
+				Key: 3,
 				Left: &binarytree.Node{
-					Value: 9,
+					Key: 4,
 				},
 				Right: &binarytree.Node{
-					Value: 10,
+					Key: 5,
 				},
 			},
 			Right: &binarytree.Node{
-				Value: 6,
+				Key: 6,
 			},
 		},
 		Right: &binarytree.Node{
-			Value: 4,
+			Key: 7,
 			Left: &binarytree.Node{
-				Value: 7,
+				Key: 8,
 				Left: &binarytree.Node{
-					Value: 11,
+					Key: 9,
 				},
 				Right: &binarytree.Node{
-					Value: 12,
+					Key: 10,
 				},
 			},
 			Right: &binarytree.Node{
-				Value: 8,
+				Key: 11,
 			},
 		},
 	}
 
 	tree := binarytree.New(root)
 
-	found := tree.BreadthFirstSearch(8)
+	visitedOrder := []int{}
 
-	if assert.NotNil(t, found) {
-		assert.Equal(t, 8, found.Value)
-		assert.Equal(t, 1, tree.Traversed())
+	visitCallback := func(key int) bool {
+
+		visitedOrder = append(visitedOrder, key)
+
+		return false // so we traverse the whole tree
 	}
 
-	tree = binarytree.New(root)
+	tree.DFS(visitCallback)
 
-	found = tree.BreadthFirstSearch(5)
-
-	if assert.NotNil(t, found) {
-		assert.Equal(t, 5, found.Value)
-		assert.Equal(t, 4, tree.Traversed())
-	}
+	expected := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
+	assert.Equal(t, expected, visitedOrder)
 }
