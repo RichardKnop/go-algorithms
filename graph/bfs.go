@@ -1,9 +1,5 @@
 package graph
 
-import (
-	"fmt"
-)
-
 func BFS(graph *Graph, key int, visitCallback func(int) bool) {
 
 	// Keep track of visited vertices
@@ -41,28 +37,4 @@ func BFS(graph *Graph, key int, visitCallback func(int) bool) {
 			}
 		}
 	}
-}
-
-func main() {
-
-	g := NewDirectedGraph()
-
-	g.AddVertex(1)
-	g.AddVertex(2)
-	g.AddVertex(3)
-	g.AddVertex(4)
-
-	g.AddEdge(1, 2)
-	g.AddEdge(2, 3)
-	g.AddEdge(2, 4)
-	g.AddEdge(4, 1)
-
-	visitCallback := func(key int) bool {
-
-		fmt.Println("Visiting vertex with key ", key)
-
-		return false // so we traverse the whole graph
-	}
-
-	BFS(g, 1, visitCallback)
 }
